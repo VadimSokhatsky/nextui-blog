@@ -40,7 +40,9 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-            <header></header>
+            <header className="w-full flex justify-center items-center">
+                <h1 className="text-2xl font-bold text-stone-800 pt-4">NextUI blog</h1>
+            </header>
             <main>
               {children}
             </main>
