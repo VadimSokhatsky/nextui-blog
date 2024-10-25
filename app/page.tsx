@@ -1,56 +1,43 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
+'use client';
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+import {useEffect, useState} from "react";
+import axios from 'axios';
+
+import {Card, CardHeader, CardBody} from "@nextui-org/card";
+import {Spinner} from "@nextui-org/spinner";
 
 export default function Home() {
+
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    setLoading(true);
+    const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    if (res) setPosts(res.data);
+    setLoading(false);
+  }
+
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
-      </div>
-
-      <div className="flex gap-3">
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
+    <section className="w-full h-full flex flex-col gap-4 p-4 box-border">
+      {loading && <Spinner className="m-auto" />}
+      {posts.map( (post) => (
+          <Card className="hover:cursor-pointer hover:contrast-150 duration-500">
+            <CardHeader className="flex justify-between items-center bg-cardHeader">
+              <h2 className="font-bold">{post.title}</h2>
+              <div className="flex gap-2 w-max bg-cardUser rounded-xl p-2">
+                <span className="w-max">User {post.userId}</span>
+              </div>
+            </CardHeader>
+            <CardBody className="bg-cardBody">
+              <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">{post.body}</p>
+            </CardBody>
+          </Card>
+      ) )}
     </section>
   );
 }

@@ -13,6 +13,12 @@ module.exports = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
+      backgroundColor: {
+        bg: '#e7e5e4',
+        cardHeader: '#44403c',
+        cardBody: '#737373',
+        cardUser: '#292524',
+      },
     },
   },
   darkMode: "class",
