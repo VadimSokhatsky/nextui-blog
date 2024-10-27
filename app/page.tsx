@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <section className="w-full h-full flex flex-col gap-4 p-4 box-border">
       {loading && <Spinner className="m-auto" />}
-      {posts.map( (post) => <CardComponent post={post} isPreview={true} /> )}
+      {posts.map( (post) => <CardComponent key={'post-' + post.id} post={post} isPreview={true} /> )}
     </section>
   );
 }
